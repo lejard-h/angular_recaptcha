@@ -11,7 +11,7 @@ then
 
 ### Add to index.html
 
-`<script async defer src="https://www.google.com/recaptcha/api.js?render=explicit"></script>`
+`<script src="https://www.google.com/recaptcha/api.js?render=explicit"></script>`
 
 ### Use it
 
