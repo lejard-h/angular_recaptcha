@@ -28,10 +28,16 @@ class AngularRecaptchaParameters {
   external factory AngularRecaptchaParameters({String sitekey, String theme, Function callback, String type});
 }
 
-@Component(selector: 'angular-recaptcha', styleUrls: const ['angular_recaptcha.css'], template: '', inputs: const ["value"])
-class AngularRecaptcha extends DefaultValueAccessor implements DoCheck {
+@Component(
+    selector: 'angular-recaptcha', styleUrls: const ['angular_recaptcha.css'], template: '', inputs: const ["value"])
+class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit {
   NgModel ngModel;
-  NgControl _cd;
+  var value;
+  ElementRef _ref;
+  num _id;
+
+  num get id => _id;
+  bool get _autoRender => _parseBool(autoRender);
 
   @Input("key")
   String key;
@@ -45,42 +51,38 @@ class AngularRecaptcha extends DefaultValueAccessor implements DoCheck {
   @Input("auto-render")
   var autoRender;
 
-  var value;
-
-  ElementRef _ref;
-  bool _init = false;
 
   AngularRecaptcha(this._ref, this.ngModel) : super(_ref) {
     ngModel.valueAccessor = this;
   }
-
-  num _id;
-  num get id => _id;
-
-  bool get _autoRender => _parseBool(autoRender);
 
   _callbackResponse(response) {
     writeValue(response);
   }
 
   @override
-  void ngDoCheck() {
-    if (_autoRender != null && _init == false && _grecaptcha != null) {
-      _init = true;
+  ngAfterViewInit() {
+    if (_autoRender != null && _grecaptcha != null) {
       render();
     }
   }
 
   num render() {
-    _id = _render(
-        _ref.nativeElement,
-        new AngularRecaptchaParameters(
-            sitekey: key, theme: theme, callback: allowInterop(_callbackResponse), type: type));
-    _init = true;
-    return _id;
+    if (_grecaptcha != null) {
+      _id = _render(
+          _ref.nativeElement,
+          new AngularRecaptchaParameters(
+              sitekey: key, theme: theme, callback: allowInterop(_callbackResponse), type: type));
+      return _id;
+    }
+    return null;
   }
 
-  void reset() => _reset(id);
+  void reset() {
+    if (_grecaptcha != null) {
+      _reset(id);
+    }
+  }
 
   @override
   void writeValue(dynamic v) {

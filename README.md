@@ -3,7 +3,7 @@
 ## How to use
 
 ### Add to pubspec.yaml
-`angular_recaptcha: 0.0.2`
+`angular_recaptcha: 0.0.4`
 
 then
 
@@ -31,21 +31,6 @@ import 'package:angular_recaptcha/angular_recaptcha.dart';
         ''',
     directives: const [AngularRecaptcha])
 class App implements OnInit {
-  @ViewChild("recaptcha")
-  AngularRecaptcha ref;
-
-  dynamic _value;
-
-  dynamic get value => _value;
-
-  void set value(v) {
-    print(v);
-    _value = v;
-  }
-
-  @override
-  ngOnInit() {
-    ref.render();
-  }
+  String value;
 }
 ```

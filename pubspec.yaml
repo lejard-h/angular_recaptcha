@@ -1,19 +1,14 @@
 name: angular_recaptcha
 description: Google Angular Recaptcha
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/lejard-h/angular_recaptcha
 author: Hadrien Lejard <hadrien.lejard@gmail.com>
 environment:
   sdk: '>=1.19.0 <2.0.0'
 
 dependencies:
-  angular2: ^2.2.0
+  angular2: ">=2.2.0 <3.0.0"
   js: ^0.6.0
 
-
 transformers:
-  - angular2/transform/codegen:
-      platform_directives:
-        - 'package:angular2/common.dart#COMMON_DIRECTIVES'
-      platform_pipes:
-        - 'package:angular2/common.dart#COMMON_PIPES'
+  - angular2
