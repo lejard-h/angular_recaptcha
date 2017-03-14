@@ -62,7 +62,7 @@ class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit {
 
   @override
   ngAfterViewInit() {
-    if (_autoRender != null && _grecaptcha != null) {
+    if (_autoRender != false && _grecaptcha != null) {
       render();
     }
   }
