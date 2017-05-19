@@ -3,7 +3,7 @@
 ## How to use
 
 ### Add to pubspec.yaml
-`angular_recaptcha: 0.0.4`
+`angular_recaptcha: ^0.0.5`
 
 then
 
