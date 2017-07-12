@@ -5,8 +5,8 @@
 library angular_recaptcha;
 
 import 'dart:html';
-import 'package:angular2/angular2.dart';
-import 'package:angular2/core.dart';
+import 'package:angular/angular.dart';
+import 'package:angular/core.dart';
 import 'package:js/js.dart';
 
 @JS('grecaptcha.render')

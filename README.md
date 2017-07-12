@@ -3,7 +3,13 @@
 ## How to use
 
 ### Add to pubspec.yaml
-`angular_recaptcha: ^0.0.5`
+
+```yaml
+angular_recaptcha: ^0.0.7
+# If you are still running angular `v2` or `v3`,
+# then you need to use: 
+# angular_recaptcha: "0.0.6"` 
+```
 
 then
 
