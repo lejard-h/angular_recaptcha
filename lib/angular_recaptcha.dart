@@ -7,6 +7,7 @@ library angular_recaptcha;
 import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:angular/core.dart';
+import 'package:angular_forms/angular_forms.dart';
 import 'package:js/js.dart';
 
 @JS('grecaptcha.render')
@@ -51,8 +52,7 @@ class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit {
   @Input("auto-render")
   var autoRender;
 
-
-  AngularRecaptcha(this._ref, this.ngModel) : super(_ref) {
+  AngularRecaptcha(this._ref, this.ngModel) : super(_ref.nativeElement) {
     ngModel.valueAccessor = this;
   }
 

@@ -5,7 +5,7 @@
 ### Add to pubspec.yaml
 
 ```yaml
-angular_recaptcha: ^0.0.7
+angular_recaptcha: ^0.0.8
 # If you are still running angular `v2` or `v3`,
 # then you need to use: 
 # angular_recaptcha: "0.0.6"` 
@@ -27,7 +27,7 @@ then
 ### More
 
 ```dart
-import 'package:angular2/core.dart';
+import 'package:angular/angular.dart';
 import 'package:angular_recaptcha/angular_recaptcha.dart';
 
 @Component(
