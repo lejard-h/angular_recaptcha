@@ -33,10 +33,10 @@ import 'package:angular_recaptcha/angular_recaptcha.dart';
 @Component(
     selector: 'app',
     template: '''
-        <angular-recaptcha #recaptcha key="YOUR_KEY" [(ngModel)]="value"></angular-recaptcha>
+        <angular-recaptcha [(ngModel)]="value" key="YOUR_KEY" [(ngModel)]="value" auto-render></angular-recaptcha>
         ''',
     directives: const [AngularRecaptcha])
-class App implements OnInit {
+class App {
   String value;
 }
 ```
