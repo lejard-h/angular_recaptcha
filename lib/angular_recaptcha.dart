@@ -45,17 +45,16 @@ class AngularRecaptchaParameters {
 @Component(
     selector: 'angular-recaptcha',
     styleUrls: const ['angular_recaptcha.css'],
-    template: '',
-    inputs: const ["value"])
-class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit, OnDestroy {
+    template: '')
+class AngularRecaptcha extends ValueAccessor implements AfterViewInit, OnDestroy {
   final _onExpireCtrl = new StreamController<Null>();
 
   @Output()
   Stream<Null> get expire => _onExpireCtrl.stream;
 
   NgModel _ngModel;
-  var value;
-  ElementRef _ref;
+  dynamic get value => _ngModel?.value;
+  HtmlElement _ref;
   num _id;
 
   num get id => _id;
@@ -79,15 +78,15 @@ class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit, On
   @Input("auto-render")
   var autoRender;
 
-  AngularRecaptcha(this._ref, this._ngModel) : super(_ref.nativeElement) {
-    _ngModel.valueAccessor = this;
+  AngularRecaptcha(this._ref, @Optional() this._ngModel) {
+    _ngModel?.valueAccessor = this;
   }
 
-  void _callbackResponse(response) {
+  _callbackResponse(response) {
     writeValue(response);
   }
 
-  void _expireCallback() {
+  _expireCallback() {
     writeValue(null);
     _onExpireCtrl.add(null);
   }
@@ -102,7 +101,7 @@ class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit, On
   num render() {
     if (_grecaptcha != null) {
       _id = _render(
-          _ref.nativeElement,
+          _ref,
           new AngularRecaptchaParameters(
               sitekey: key,
               theme: theme,
@@ -124,10 +123,7 @@ class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit, On
 
   @override
   void writeValue(dynamic v) {
-    if (v != null && value != v) {
-      value = v;
-      _ngModel.viewToModelUpdate(value);
-    }
+    _ngModel?.viewToModelUpdate(v);
   }
 
   void ngOnDestroy() {
@@ -148,5 +144,24 @@ bool _parseBool(dynamic value) {
       return false;
     default:
       return false;
+  }
+}
+
+abstract class ValueAccessor<T> implements ControlValueAccessor<T> {
+  ChangeFunction<T> onModelChange = (_, {String rawValue}) {};
+  TouchFunction onModelTouched = () {};
+
+  @override
+  void registerOnChange(ChangeFunction<T> fn) {
+    onModelChange = fn;
+  }
+
+  @override
+  void registerOnTouched(TouchFunction fn) {
+    onModelTouched = fn;
+  }
+
+  void touchHandler() {
+    onModelTouched();
   }
 }

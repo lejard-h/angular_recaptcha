@@ -62,8 +62,9 @@ import 'package:angular_recaptcha/angular_recaptcha.dart';
     template: '''
         <angular-recaptcha [(ngModel)]="value" key="YOUR_KEY" [(ngModel)]="value" auto-render></angular-recaptcha>
         ''',
-    directives: const [AngularRecaptcha])
-class App {
+    directives: const [AngularRecaptcha, formDirectives ]
+)
+class AppComponent {
   String value;
 }
 ```

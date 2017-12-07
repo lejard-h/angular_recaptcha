@@ -1,5 +1,8 @@
 ## 0.0.8
 - Add documentation
+- fix ddc
+- ***Breaking Changes***
+    + If you want to use ngModel you have to import `formDirectives` from `angular_forms`
 
 ## 0.0.7
 
