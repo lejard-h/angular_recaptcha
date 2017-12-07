@@ -23,6 +23,33 @@ then
 
 `<angular-recaptcha [(ngModel)]="value" key="YOUR_KEY" auto-render></angular-recaptcha>`
 
+### Options
+
+Support `ngModel` for Form validation.
+
+#### @Inputs
+
+- `String size`: Support "normal" or "compact"
+- `String key`: Your sitekey
+- `String theme`: Support "light" or "dark"
+- `String type`: Support "image" or "audio"
+- `bool autoRender`: will render the captchat automatically when ready
+- `String tabindex`
+
+#### @Outputs
+
+- `expire`: notify when the token is expired, we also set `value` to null
+
+#### Getter
+
+- `value`: get the value of the captcha
+
+#### Functions
+
+- `render()`: manually render the captcha
+- `reset()`: manually reset the captcha
+
+[More documentations](https://developers.google.com/recaptcha/docs/display)
 
 ### More
 

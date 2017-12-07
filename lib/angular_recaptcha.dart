@@ -5,13 +5,15 @@
 library angular_recaptcha;
 
 import 'dart:html';
+import 'dart:async';
 import 'package:angular/angular.dart';
 import 'package:angular/core.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:js/js.dart';
 
 @JS('grecaptcha.render')
-external num _render(HtmlElement container, AngularRecaptchaParameters parameters);
+external num _render(
+    HtmlElement container, AngularRecaptchaParameters parameters);
 @JS('grecaptcha.reset')
 external void _reset(num id);
 @JS('grecaptcha.getResponse')
@@ -26,19 +28,44 @@ class AngularRecaptchaParameters {
   external String get theme;
   external Function get callback;
   external String get type;
-  external factory AngularRecaptchaParameters({String sitekey, String theme, Function callback, String type});
+  external String get size;
+  external String get tabindex;
+  @JS("expired-callback")
+  external Function get expiredCallback;
+  external factory AngularRecaptchaParameters(
+      {String sitekey,
+      String theme,
+      Function callback,
+      String type,
+      Function expiredCallback,
+      String size,
+      String tabindex});
 }
 
 @Component(
-    selector: 'angular-recaptcha', styleUrls: const ['angular_recaptcha.css'], template: '', inputs: const ["value"])
-class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit {
-  NgModel ngModel;
+    selector: 'angular-recaptcha',
+    styleUrls: const ['angular_recaptcha.css'],
+    template: '',
+    inputs: const ["value"])
+class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit, OnDestroy {
+  final _onExpireCtrl = new StreamController<Null>();
+
+  @Output()
+  Stream<Null> get expire => _onExpireCtrl.stream;
+
+  NgModel _ngModel;
   var value;
   ElementRef _ref;
   num _id;
 
   num get id => _id;
   bool get _autoRender => _parseBool(autoRender);
+
+  @Input('tabindex')
+  String tabindex = "0";
+
+  @Input("size")
+  String size = "normal";
 
   @Input("key")
   String key;
@@ -52,16 +79,21 @@ class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit {
   @Input("auto-render")
   var autoRender;
 
-  AngularRecaptcha(this._ref, this.ngModel) : super(_ref.nativeElement) {
-    ngModel.valueAccessor = this;
+  AngularRecaptcha(this._ref, this._ngModel) : super(_ref.nativeElement) {
+    _ngModel.valueAccessor = this;
   }
 
-  _callbackResponse(response) {
+  void _callbackResponse(response) {
     writeValue(response);
   }
 
+  void _expireCallback() {
+    writeValue(null);
+    _onExpireCtrl.add(null);
+  }
+
   @override
-  ngAfterViewInit() {
+  void ngAfterViewInit() {
     if (_autoRender != false && _grecaptcha != null) {
       render();
     }
@@ -72,7 +104,13 @@ class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit {
       _id = _render(
           _ref.nativeElement,
           new AngularRecaptchaParameters(
-              sitekey: key, theme: theme, callback: allowInterop(_callbackResponse), type: type));
+              sitekey: key,
+              theme: theme,
+              callback: allowInterop(_callbackResponse),
+              expiredCallback: allowInterop(_expireCallback),
+              type: type,
+              size: size,
+              tabindex: tabindex));
       return _id;
     }
     return null;
@@ -88,8 +126,12 @@ class AngularRecaptcha extends DefaultValueAccessor implements AfterViewInit {
   void writeValue(dynamic v) {
     if (v != null && value != v) {
       value = v;
-      ngModel.viewToModelUpdate(value);
+      _ngModel.viewToModelUpdate(value);
     }
+  }
+
+  void ngOnDestroy() {
+    _onExpireCtrl.close();
   }
 }
 
