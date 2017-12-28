@@ -10,28 +10,38 @@ import 'package:angular/angular.dart';
 import 'package:angular/core.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:js/js.dart';
+import "package:js/js_util.dart";
+import "package:dart_browser_loader/dart_browser_loader.dart"
+    show loadScript, waitLoad;
 
 @JS('grecaptcha.render')
 external num _render(
     HtmlElement container, AngularRecaptchaParameters parameters);
+
 @JS('grecaptcha.reset')
 external void _reset(num id);
+
 @JS('grecaptcha.getResponse')
 external _getResponse(num id);
-@JS('grecaptcha')
-external dynamic get _grecaptcha;
 
 @JS()
 @anonymous
 class AngularRecaptchaParameters {
   external String get sitekey;
+
   external String get theme;
+
   external Function get callback;
+
   external String get type;
+
   external String get size;
+
   external String get tabindex;
+
   @JS("expired-callback")
   external Function get expiredCallback;
+
   external factory AngularRecaptchaParameters(
       {String sitekey,
       String theme,
@@ -46,19 +56,22 @@ class AngularRecaptchaParameters {
     selector: 'angular-recaptcha',
     styleUrls: const ['angular_recaptcha.css'],
     template: '')
-class AngularRecaptcha extends ValueAccessor implements AfterViewInit, OnDestroy {
+class AngularRecaptcha extends ValueAccessor
+    implements AfterViewInit, OnDestroy {
   final _onExpireCtrl = new StreamController<Null>();
+  NgModel _ngModel;
+  HtmlElement _ref;
+  num _id;
+  bool _autoRender = false;
+
+  dynamic get value => _ngModel?.value;
+
+  num get id => _id;
+
+  bool get autoRender => _autoRender;
 
   @Output()
   Stream<Null> get expire => _onExpireCtrl.stream;
-
-  NgModel _ngModel;
-  dynamic get value => _ngModel?.value;
-  HtmlElement _ref;
-  num _id;
-
-  num get id => _id;
-  bool get _autoRender => _parseBool(autoRender);
 
   @Input('tabindex')
   String tabindex = "0";
@@ -76,49 +89,46 @@ class AngularRecaptcha extends ValueAccessor implements AfterViewInit, OnDestroy
   String type = "image";
 
   @Input("auto-render")
-  var autoRender;
+  void set autoRender(val) {
+    _autoRender = _parseBool(val);
+  }
 
   AngularRecaptcha(this._ref, @Optional() this._ngModel) {
     _ngModel?.valueAccessor = this;
   }
 
-  _callbackResponse(response) {
+  void _callbackResponse(response) {
     writeValue(response);
   }
 
-  _expireCallback() {
+  void _expireCallback() {
     writeValue(null);
     _onExpireCtrl.add(null);
   }
 
   @override
   void ngAfterViewInit() {
-    if (_autoRender != false && _grecaptcha != null) {
+    if (_autoRender != false) {
       render();
     }
   }
 
-  num render() {
-    if (_grecaptcha != null) {
-      _id = _render(
-          _ref,
-          new AngularRecaptchaParameters(
-              sitekey: key,
-              theme: theme,
-              callback: allowInterop(_callbackResponse),
-              expiredCallback: allowInterop(_expireCallback),
-              type: type,
-              size: size,
-              tabindex: tabindex));
-      return _id;
-    }
-    return null;
+  Future<num> render() async {
+    _id = await _safeApiCall<num>(() => _render(
+        _ref,
+        new AngularRecaptchaParameters(
+            sitekey: key,
+            theme: theme,
+            callback: allowInterop(_callbackResponse),
+            expiredCallback: allowInterop(_expireCallback),
+            type: type,
+            size: size,
+            tabindex: tabindex)));
+    return _id;
   }
 
   void reset() {
-    if (_grecaptcha != null) {
-      _reset(id);
-    }
+    _safeApiCall(() => _reset(id));
   }
 
   @override
@@ -164,4 +174,27 @@ abstract class ValueAccessor<T> implements ControlValueAccessor<T> {
   void touchHandler() {
     onModelTouched();
   }
+}
+
+typedef FutureOr<T> _VoidCallback<T>();
+
+Element _script;
+
+FutureOr<T> _safeApiCall<T>(_VoidCallback<T> call) async {
+  await loadScript(
+      "https://www.google.com/recaptcha/api.js?onload=render=explicit",
+      isAsync: true,
+      isDefer: true,
+      id: "grecaptcha-jssdk");
+  if (_script == null) {
+    final scripts = document.querySelectorAll("script");
+    _script = scripts.where((s) => s is ScriptElement).firstWhere(
+        (s) => (s as ScriptElement)
+            .src
+            .startsWith("https://www.gstatic.com/recaptcha/api2/"),
+        orElse: () => null);
+    if (_script == null) return null;
+  }
+  await waitLoad(_script);
+  return await call();
 }

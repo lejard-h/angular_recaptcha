@@ -17,6 +17,9 @@ then
 
 ### Add to index.html
 
+***Deprecated*** 
+Adding the script tag is no more necessary
+
 `<script src="https://www.google.com/recaptcha/api.js?render=explicit"></script>`
 
 ### Use it

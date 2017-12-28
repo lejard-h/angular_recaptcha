@@ -1,3 +1,11 @@
+## 0.0.10
+
+- ***Deprecated*** 
+    + Adding the script tag is no more necessary
+
+- ***Breaking Changes***
+    + `num render()` is now returning a Future, `Future<num> render()`
+
 ## 0.0.9
 - Add documentation
 - fix ddc
