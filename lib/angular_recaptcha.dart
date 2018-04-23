@@ -10,9 +10,11 @@ import 'package:angular/angular.dart';
 import 'package:angular/core.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:js/js.dart';
-import "package:js/js_util.dart";
+// import "package:js/js_util.dart";
 import "package:dart_browser_loader/dart_browser_loader.dart"
-    show loadScript, waitLoad;
+    show loadScript;
+
+import "package:dart_browser_loader/src/utils.dart" show waitLoad;
 
 @JS('grecaptcha.render')
 external num _render(
@@ -22,7 +24,7 @@ external num _render(
 external void _reset(num id);
 
 @JS('grecaptcha.getResponse')
-external _getResponse(num id);
+external _getResponse(num id);// ignore: unused_element
 
 @JS()
 @anonymous
@@ -135,6 +137,11 @@ class AngularRecaptcha extends ValueAccessor
   void writeValue(dynamic v) {
     _ngModel?.viewToModelUpdate(v);
   }
+
+  /// Depending on the value, it will enable or disable the
+  /// appropriate DOM element.
+  @override
+  void onDisabledChanged(bool isDisabled) {}
 
   void ngOnDestroy() {
     _onExpireCtrl.close();
