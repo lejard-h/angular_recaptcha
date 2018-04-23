@@ -5,7 +5,7 @@
 ### Add to pubspec.yaml
 
 ```yaml
-# If you are still running angular `v5`
+# If you are running angular `v5`
 angular_recaptcha: ^0.0.11
 # If you are still running angular `v4`
 # angular_recaptcha: ^0.0.8
