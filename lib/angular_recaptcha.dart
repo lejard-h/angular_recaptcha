@@ -138,8 +138,9 @@ class AngularRecaptcha extends ValueAccessor
     _ngModel?.viewToModelUpdate(v);
   }
 
-  /// Depending on the value, it will enable or disable the
-  /// appropriate DOM element.
+  // this abstract method does nothing
+  // it is implemented only to avoid error messages
+  // from analyzer plugin
   @override
   void onDisabledChanged(bool isDisabled) {}
 
