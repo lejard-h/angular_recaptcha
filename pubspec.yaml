@@ -1,6 +1,6 @@
 name: angular_recaptcha
 description: Google Angular Recaptcha
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/lejard-h/angular_recaptcha
 author: Hadrien Lejard <hadrien.lejard@gmail.com>
 environment:
@@ -11,6 +11,3 @@ dependencies:
   angular_forms: ^2.0.0-alpha
   js: ^0.6.0
   dart_browser_loader: ^0.0.2
-
-transformers:
-  - angular
