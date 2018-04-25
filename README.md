@@ -6,7 +6,7 @@
 
 ```yaml
 # If you are running angular `v5`
-angular_recaptcha: ^0.1.0
+angular_recaptcha: ^0.1.1
 # If you are still running angular `v4`
 # angular_recaptcha: ^0.0.8
 # If you are still running angular `v2` or `v3`,
