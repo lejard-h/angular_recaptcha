@@ -190,7 +190,7 @@ Element _script;
 
 FutureOr<T> _safeApiCall<T>(_VoidCallback<T> call) async {
   await loadScript(
-      "https://www.google.com/recaptcha/api.js?onload=render=explicit",
+      "https://www.google.com/recaptcha/api.js?render=explicit",
       isAsync: true,
       isDefer: true,
       id: "grecaptcha-jssdk");
