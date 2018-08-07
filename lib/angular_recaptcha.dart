@@ -11,8 +11,7 @@ import 'package:angular/core.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:js/js.dart';
 // import "package:js/js_util.dart";
-import "package:dart_browser_loader/dart_browser_loader.dart"
-    show loadScript;
+import "package:dart_browser_loader/dart_browser_loader.dart" show loadScript;
 
 import "package:dart_browser_loader/src/utils.dart" show waitLoad;
 
@@ -24,7 +23,7 @@ external num _render(
 external void _reset(num id);
 
 @JS('grecaptcha.getResponse')
-external _getResponse(num id);// ignore: unused_element
+external _getResponse(num id); // ignore: unused_element
 
 @JS()
 @anonymous
@@ -189,11 +188,8 @@ typedef FutureOr<T> _VoidCallback<T>();
 Element _script;
 
 FutureOr<T> _safeApiCall<T>(_VoidCallback<T> call) async {
-  await loadScript(
-      "https://www.google.com/recaptcha/api.js?render=explicit",
-      isAsync: true,
-      isDefer: true,
-      id: "grecaptcha-jssdk");
+  await loadScript("https://www.google.com/recaptcha/api.js?render=explicit",
+      isAsync: true, isDefer: true, id: "grecaptcha-jssdk");
   if (_script == null) {
     final scripts = document.querySelectorAll("script");
     _script = scripts.where((s) => s is ScriptElement).firstWhere(

@@ -1,3 +1,7 @@
+## 0.1.3
+
++  Dart 2 and Angular 5 stable
+
 ## 0.0.10
 
 - ***Deprecated*** 
