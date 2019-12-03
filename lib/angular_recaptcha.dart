@@ -195,7 +195,7 @@ FutureOr<T> _safeApiCall<T>(_VoidCallback<T> call) async {
     _script = scripts.where((s) => s is ScriptElement).firstWhere(
         (s) => (s as ScriptElement)
             .src
-            .startsWith("https://www.gstatic.com/recaptcha/api2/"),
+            .startsWith("https://www.gstatic.com/recaptcha/"),
         orElse: () => null);
     if (_script == null) return null;
   }
