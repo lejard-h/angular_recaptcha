@@ -1,3 +1,7 @@
+## 0.1.4
+
++ Fix recaptcha url, thanks to @enyo
+
 ## 0.1.3
 
 +  Dart 2 and Angular 5 stable
