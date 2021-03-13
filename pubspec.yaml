@@ -1,13 +1,13 @@
 name: angular_recaptcha
 description: Google Angular Recaptcha
-version: 0.1.4
+version: 0.1.5
 homepage: https://github.com/lejard-h/angular_recaptcha
 
 environment:
   sdk: ">=2.0.0 <3.0.0"
 
 dependencies:
-  angular: ^5.0.0
-  angular_forms: ^2.0.0
-  js: ^0.6.0
-  dart_browser_loader: ^0.0.3
+  angular: ^6.0.1
+  angular_forms: ^3.0.0
+  js: ^0.6.3
+  dart_browser_loader: ^0.0.6+1
