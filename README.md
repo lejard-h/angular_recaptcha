@@ -1,3 +1,10 @@
+<p align="center">
+<a href="https://github.com/lejard-h/angular_recaptcha/actions?query=workflow%3ADart"><img src="https://github.com/lejard-h/angular_recaptcha/workflows/Dart/badge.svg?branch=master" alt="Build Status"></a>
+<a href="https://github.com/lejard-h/angular_recaptcha"><img src="https://img.shields.io/github/stars/lejard-h/angular_recaptcha.svg?style=flat&logo=github&colorB=deeppink&label=stars" alt="Star on Github"></a>
+<a href="https://www.buymeacoffee.com/lejardh" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="25px"></a>
+</p>
+
+
 # Angular Recaptcha (Dart)
 
 ## How to use
