@@ -1,3 +1,7 @@
+## 0.1.5
+
+- Update dependencies
+
 ## 0.1.4
 
 + Fix recaptcha url, thanks to @enyo

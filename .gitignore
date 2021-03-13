@@ -22,3 +22,4 @@ doc/api/
 *.ipr
 *.iws
 .DS_Store
+.dart_tool
